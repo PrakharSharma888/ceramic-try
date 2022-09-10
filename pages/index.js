@@ -42,6 +42,7 @@ function RecordSetter(){
       </div>
 
       <input type="text" placeholder='Your Name' onChange={(e)=>setnames(e.target.value)} value={names} className={styles.mt2}/>
+      <br/>
       <button onClick={()=> updateRecordName(names)}>Update</button>
     </div>
   ) 
@@ -50,12 +51,12 @@ function RecordSetter(){
 
 export default function Home() {
   
-  const {connection , connect, disconnect} = useViewerConnection()
+  const [connection, connect, disconnect] = useViewerConnection();
   const web3ModalRef = useRef()
 
   const getProvider = async() =>{
-    const provider = web3ModalRef.current.connect()
-    const wrappedProvider = Web3Provider(provider)
+    const provider = await web3ModalRef.current.connect()
+    const wrappedProvider = new Web3Provider(provider)
     return wrappedProvider
   }
 
@@ -76,7 +77,7 @@ export default function Home() {
   useEffect(()=>{
     if(connection.status !== "connected"){
       web3ModalRef.current = new Web3Modal({
-        network: rinkeby,
+        network: 'rinkeby',
         providerOptions: {},
         disableInjectedProvider: false
       })
@@ -87,7 +88,7 @@ export default function Home() {
     <div className={styles.main}>
       <div className={styles.navbar}>
         <span className={styles.title}>
-          Demo
+          Ceramic 
         </span>
         {connection.status == "connected" ? (
           <span className={styles.subtitle}>Connected</span>
